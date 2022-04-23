@@ -49,12 +49,12 @@ jobs:
     
     - name: Test with pytest Coveralls 
       run: |
-        coverage run -m pytest tests/ -vv        
-
+        coverage run -m pytest tests/ -vv     
     - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.COVERALLS_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      run: |
+        coveralls        
         
 #    - name: Coveralls
 #      uses: AndreMiras/coveralls-python-action@develop
