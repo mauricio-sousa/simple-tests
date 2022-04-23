@@ -7,6 +7,8 @@ def subtrai(x, y):
 
 
 def divide(x, y):
+    if y == 0:
+        raise ValueError('Cannot divide by Zero')
     return x / y
 
 
