@@ -47,13 +47,16 @@ jobs:
       with:
         fail_ci_if_error: true  
         
-    - name: Test ${{ matrix.test_number }}
+    - name: Upload coverage data to coveralls.io
       run: coveralls --service=github
       env:
-        GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}      
-    - name: Coveralls Parallel
-      uses: coverallsapp/github-action@master    
-      with:
-        flag-name: run-${{ matrix.test_number }}
-        parallel: true
+        GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
+        COVERALLS_PARALLEL: true         
+    - name: Finished
+      run: |
+        pip3 install --upgrade coveralls
+        coveralls --service=github --finish
+      env:
+        GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
   
