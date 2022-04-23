@@ -48,11 +48,12 @@ jobs:
         fail_ci_if_error: true  
         
     - name: Upload coverage data to coveralls.io
-      run: coveralls --service=github
       env:
         GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         COVERALLS_FLAG_NAME: simple-tests 
-        COVERALLS_PARALLEL: true         
+        COVERALLS_PARALLEL: true
+      run: coveralls --service=github
+      
     - name: Finished
       run: |
         pip3 install --upgrade coveralls
