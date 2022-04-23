@@ -52,7 +52,7 @@ jobs:
         coverage run -m pytest tests/ -vv     
     - name: Coveralls
       env:
-        GITHUB_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
         coveralls --service=github    
         
