@@ -49,19 +49,9 @@ jobs:
   
     - name: Convert Coverage Results to Coveralls
       run: |
-        pip install --upgrade coveralls coveragepy-lcov
-        coveralls --service=github --finish               
-        coveragepy-lcov --data_file_path .coverage --output_file_path lcov.info 
+        pip install --upgrade coveralls
+        coveralls --service=github
       env:
         GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
-        COVERALLS_PARALLEL: true        
-
- #   - name: Upload Coverage Results to Coveralls
- #     uses: coverallsapp/github-action@master 
- #     with:
- #       github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
- #       flag-name: run-${{ matrix.test_number }}   
- #       parallel: true        
- #       path-to-lcov: lcov.info
-
+        COVERALLS_PARALLEL: true
