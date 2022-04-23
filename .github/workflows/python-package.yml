@@ -25,7 +25,7 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }}    
         
     - name: Install dependencies
       run: |
@@ -38,26 +38,27 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+    - name: Test with pytest Codecov 
       run: |
         py.test --cov . -vv --cov-report xml
-        
+             
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v1
       with:
-        fail_ci_if_error: true        
+        fail_ci_if_error: true  
+  
+    - name: Convert Coverage Results to Coveralls
+      run: |
+        pip install coveragepy-lcov
+        coveragepy-lcov --data_file_path .coverage --output_file_path lcov.info   
 
-    - name: Coveralls
+    - name: Upload Coverage Results to Coveralls
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.COVERALLS_TOKEN }}
-        path-to-lcov: coverage.xml
-        
-#    - name: Coveralls
-#      uses: AndreMiras/coveralls-python-action@develop
-#      with:
-#        parallel: true
-#        flag-name: Unit Test
+        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        flag-name: run-${{ matrix.test_number }}   
+        parallel: true        
+        path-to-lcov: lcov.info        
         
         
         
