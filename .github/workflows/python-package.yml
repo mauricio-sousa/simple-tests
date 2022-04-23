@@ -46,9 +46,19 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         fail_ci_if_error: true        
-        
+
     - name: Coveralls
-      uses: AndreMiras/coveralls-python-action@develop
+      uses: coverallsapp/github-action@master
       with:
-        parallel: true
-        flag-name: Unit Test
+        github-token: ${{ secrets.COVERALLS_TOKEN }}
+        
+#    - name: Coveralls
+#      uses: AndreMiras/coveralls-python-action@develop
+#      with:
+#        parallel: true
+#        flag-name: Unit Test
+        
+        
+        
+        
+       
