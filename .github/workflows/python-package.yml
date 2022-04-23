@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: [3.7, 3.8, 3.9, '3.10.4']        
 
     steps:
     - uses: actions/cache@v2
@@ -49,12 +49,7 @@ jobs:
         
     - name: Upload coverage data to coveralls.io
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+          COVERALLS_PARALLEL: true        
       run: coveralls --service=github
       
-    - name: Finished
-      run: |
-        pip3 install --upgrade coveralls
-        coveralls --service=github --finish
-      env:
-        GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
