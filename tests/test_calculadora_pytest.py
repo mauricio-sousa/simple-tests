@@ -20,7 +20,7 @@ def test_divide():
     assert divide(x, y) == x / y
 
 
-def test_multiplca():
+def test_multiplica():
     assert multiplica(x, y) == x * y
 
 

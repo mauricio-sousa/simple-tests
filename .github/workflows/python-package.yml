@@ -1,29 +1,30 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python package
+name: Python test 
 
 on: [push, pull_request]
 
 jobs:
   build:
-    name: build with python ${{ matrix.python-version }}
+    name: build with python ${{ matrix.python-version }} and ${{ matrix.software-testing }}
 
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, '3.10.4']        
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]  
+        software-testing: ["pytest", "ward"] 
 
     steps:
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-    
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}    
         
@@ -39,19 +40,29 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest Codecov 
+      id: pytest
+      if: ${{ matrix.software-testing=='pytest' }}
       run: |
-        py.test --cov . -vv --cov-report xml
-             
+        py.test --cov . -vv --cov-report xml --color=yes --ignore=tests/test_calculadora_ward.py
+
     - name: "Upload coverage to Codecov"
-      uses: codecov/codecov-action@v1
+      if: steps.pytest.outcome == 'success'    
+      uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: true  
         
     - name: Upload coverage data to coveralls.io
+      if: steps.pytest.outcome == 'success'    
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
           COVERALLS_PARALLEL: true        
-      run: coveralls --service=github
+      run: coveralls --service=github        
+
+    - name: Test with ward
+      if: ${{ matrix.software-testing=='ward' }}
+      run: |
+        ward test
+
   finish:
     needs: build
     runs-on: ubuntu-latest
