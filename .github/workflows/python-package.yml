@@ -43,7 +43,7 @@ jobs:
         py.test --cov . -vv --cov-report xml --color=yes --ignore=tests/test_soma_ward.py
              
     - name: "Upload coverage to Codecov"
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: true  
         
