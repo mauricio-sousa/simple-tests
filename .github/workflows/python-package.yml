@@ -44,11 +44,6 @@ jobs:
       run: |
         py.test --cov . -vv --cov-report xml --color=yes --ignore=tests/test_calculadora_ward.py
 
-    - name: Test with ward
-      if: ${{ matrix.software-testing=='ward' }}
-      run: |
-        ward test
-
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v3
       with:
@@ -58,7 +53,13 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
           COVERALLS_PARALLEL: true        
-      run: coveralls --service=github
+      run: coveralls --service=github        
+
+    - name: Test with ward
+      if: ${{ matrix.software-testing=='ward' }}
+      run: |
+        ward test
+
   finish:
     needs: build
     runs-on: ubuntu-latest
