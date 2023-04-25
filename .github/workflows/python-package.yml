@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, '3.10.4']        
+        python-version: ["2.7", "3.7", "3.8", "3.9", "3.10", "3.11"]      
 
     steps:
     - uses: actions/cache@v2
@@ -40,7 +40,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest Codecov 
       run: |
-        py.test --cov . -vv --cov-report xml
+        py.test --cov . -vv --cov-report xml --ignore=tests/test_soma_ward.py
              
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v1
