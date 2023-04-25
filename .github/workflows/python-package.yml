@@ -42,7 +42,7 @@ jobs:
     - name: Test with pytest Codecov 
       if: ${{ matrix.software-testing=='pytest' }}
       run: |
-        py.test --cov . -vv --cov-report xml --color=yes --ignore=tests/test_soma_ward.py
+        py.test --cov . -vv --cov-report xml --color=yes --ignore=tests/test_calculadora_ward.py
 
     - name: Test with ward
       if: ${{ matrix.software-testing=='ward' }}
