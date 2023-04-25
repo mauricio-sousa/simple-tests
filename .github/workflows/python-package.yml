@@ -40,16 +40,19 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest Codecov 
+      id: pytest
       if: ${{ matrix.software-testing=='pytest' }}
       run: |
         py.test --cov . -vv --cov-report xml --color=yes --ignore=tests/test_calculadora_ward.py
 
     - name: "Upload coverage to Codecov"
+      if: steps.pytest.outcome == 'success'    
       uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: true  
         
     - name: Upload coverage data to coveralls.io
+      if: steps.pytest.outcome == 'success'    
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
           COVERALLS_PARALLEL: true        
