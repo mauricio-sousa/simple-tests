@@ -8,6 +8,8 @@ on: [push, pull_request]
 jobs:
   build:
     name: build with python ${{ matrix.python-version }} and ${{ matrix.software-testing }}
+    env:
+      FORCE_COLOR: 3      
 
     runs-on: ubuntu-latest
     strategy:
