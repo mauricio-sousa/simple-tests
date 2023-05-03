@@ -27,4 +27,4 @@ def test_multiplica():
 def test_zero_division():
     with pytest.raises(ValueError) as err:
         divide(1, 0)
-    assert str(err.value) == 'Cannot divide by Zero'
+    assert str(err.value) == "Cannot divide by Zero"
