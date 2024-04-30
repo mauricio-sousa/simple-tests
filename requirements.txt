@@ -2,3 +2,4 @@ Faker
 pytest
 ward
 coveralls
+pytest-cov
