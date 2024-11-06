@@ -3,7 +3,6 @@ from faker import Faker
 from ward import raises, skip
 import ward
 
-
 faker = Faker()
 x = faker.random_digit()
 y = faker.random_digit()
